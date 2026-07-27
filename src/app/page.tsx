@@ -68,7 +68,7 @@ export default async function HomePage() {
     fetchLinks(supabase),
   ]);
 
-  // Page background (Background Belakang)
+  // Page background
   const pageBgStyle: React.CSSProperties =
     settings.page_bg_type === "image" && settings.page_bg_value
       ? {
@@ -79,7 +79,7 @@ export default async function HomePage() {
         }
       : { backgroundColor: settings.page_bg_value || "#0D0D0D" };
 
-  // Main Card background (Background Card Utama)
+  // Main Card background
   const cardBgStyle: React.CSSProperties =
     settings.card_bg_type === "image" && settings.card_bg_value
       ? {
@@ -181,25 +181,25 @@ export default async function HomePage() {
           text-align: center;
         }
 
+        /* ── Logo without circle border ring ── */
         .logo-wrapper {
           position: relative;
           width: 96px;
           height: 96px;
-          border-radius: 50%;
-          overflow: hidden;
-          border: 2px solid #3A3A3A;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           flex-shrink: 0;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .logo-image {
-          object-fit: cover;
+          object-fit: contain;
         }
 
         .logo-placeholder {
           width: 100%;
           height: 100%;
-          background-color: #2A2A2A;
+          background-color: transparent;
           display: flex;
           align-items: center;
           justify-content: center;

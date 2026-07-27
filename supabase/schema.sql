@@ -1,20 +1,10 @@
--- =============================================
--- TAUTIN — Link-in-Bio App
--- Supabase Schema (paste ke SQL Editor)
--- =============================================
-
 create extension if not exists "uuid-ossp";
 
--- =============================================
--- TABLE: settings
--- Key-value store untuk semua konfigurasi site
--- =============================================
 create table if not exists public.settings (
   key   text primary key,
   value text
 );
 
--- Seed data default
 insert into public.settings (key, value) values
   ('brand_name',        'Brand Name'),
   ('brand_name_color',  '#FFFFFF'),
@@ -32,10 +22,6 @@ insert into public.settings (key, value) values
   ('logo_url',          '')
 on conflict (key) do nothing;
 
--- =============================================
--- TABLE: links
--- Tombol tautan yang tampil di halaman utama
--- =============================================
 create table if not exists public.links (
   id          uuid primary key default uuid_generate_v4(),
   label       text not null,
@@ -46,7 +32,6 @@ create table if not exists public.links (
   created_at  timestamptz not null default now()
 );
 
--- Seed data default
 insert into public.links (label, url, icon, order_index) values
   ('Instagram', 'https://instagram.com', 'Instagram',  0),
   ('TikTok',    'https://tiktok.com',    'TikTok',     1),
@@ -54,9 +39,6 @@ insert into public.links (label, url, icon, order_index) values
   ('WhatsApp',  'https://wa.me/628123456789', 'WhatsApp', 3)
 on conflict do nothing;
 
--- =============================================
--- RLS (Row Level Security)
--- =============================================
 alter table public.settings enable row level security;
 alter table public.links    enable row level security;
 

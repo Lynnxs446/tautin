@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { ArrowUpTrayIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 
 interface LogoEditorProps {
   logoUrl: string;
@@ -83,12 +82,12 @@ export default function LogoEditor({ logoUrl, brandName, onSaved }: LogoEditorPr
         {/* Preview */}
         <div className="logo-preview-box">
           {currentUrl ? (
-            <div style={{ position: "relative", width: 80, height: 80 }}>
+            <div style={{ position: "relative", width: 80, height: 80, display: "flex", alignItems: "center", justifyContent: "center" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={currentUrl}
                 alt="Logo"
-                style={{ width: 80, height: 80, borderRadius: "50%", objectFit: "cover", border: "2px solid #3A3A3A" }}
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
             </div>
           ) : (
@@ -149,9 +148,9 @@ export default function LogoEditor({ logoUrl, brandName, onSaved }: LogoEditorPr
         .logo-preview-placeholder {
           width: 80px;
           height: 80px;
-          border-radius: 50%;
+          border-radius: 12px;
           background-color: #2A2A2A;
-          border: 2px dashed #3A3A3A;
+          border: 1px dashed #3A3A3A;
           display: flex;
           align-items: center;
           justify-content: center;
