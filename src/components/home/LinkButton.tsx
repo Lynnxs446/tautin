@@ -57,7 +57,6 @@ function ShopeeSvgIcon({ className }: { className?: string }) {
   );
 }
 
-// Map for icon lookup
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   WhatsApp: WhatsAppSvgIcon,
   Instagram: InstagramSvgIcon,
@@ -83,7 +82,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Cube: CubeIcon,
 };
 
-// Auto detect icon based on URL and Label
 export function detectIconName(url: string = "", label: string = ""): string {
   const combined = (url + " " + label).toLowerCase();
   if (combined.includes("wa.me") || combined.includes("whatsapp") || combined.includes("wa.link") || combined.includes("wa")) {
@@ -101,12 +99,10 @@ export function detectIconName(url: string = "", label: string = ""): string {
   return "Link";
 }
 
-// Format WhatsApp URL to https://wa.me/xxx
 export function formatUrl(rawUrl: string = ""): string {
   let url = rawUrl.trim();
   if (!url) return "#";
 
-  // Check if it looks like a phone number or whatsapp link
   const lower = url.toLowerCase();
   if (lower.includes("wa.me/") || lower.includes("api.whatsapp.com/send")) {
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
@@ -115,7 +111,6 @@ export function formatUrl(rawUrl: string = ""): string {
     return url;
   }
 
-  // If it's a number like 08123456789 or +628123456789 or 628123456789
   const isPhoneNumber = /^(\+?62|08|8)[0-9\s\-]+$/.test(url);
   if (isPhoneNumber) {
     let clean = url.replace(/[^0-9]/g, "");
@@ -136,16 +131,9 @@ export function formatUrl(rawUrl: string = ""): string {
 
 interface LinkButtonProps {
   link: LinkItem;
-  cardBgType: string;
-  cardBgValue: string;
 }
 
-export default function LinkButton({
-  link,
-  cardBgType,
-  cardBgValue,
-}: LinkButtonProps) {
-  // Determine icon: if link.icon is set and exists in map, use it; otherwise auto-detect
+export default function LinkButton({ link }: LinkButtonProps) {
   let iconKey = link.icon;
   if (!iconKey || iconKey === "Link" || !ICON_MAP[iconKey]) {
     iconKey = detectIconName(link.url, link.label);
@@ -154,22 +142,12 @@ export default function LinkButton({
   const IconComponent = ICON_MAP[iconKey] ?? LinkIcon;
   const finalHref = formatUrl(link.url);
 
-  const cardStyle: React.CSSProperties =
-    cardBgType === "image" && cardBgValue
-      ? {
-          backgroundImage: `url(${cardBgValue})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }
-      : { backgroundColor: cardBgValue || "#1E1E1E" };
-
   return (
     <a
       href={finalHref}
       target="_blank"
       rel="noopener noreferrer"
       className="link-button"
-      style={cardStyle}
     >
       <span className="link-button__icon">
         <IconComponent className="w-5 h-5" />

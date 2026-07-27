@@ -47,7 +47,7 @@ async function fetchLinks(
   return data as LinkItem[];
 }
 
-export const revalidate = 0; 
+export const revalidate = 0;
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -56,6 +56,7 @@ export default async function HomePage() {
     fetchLinks(supabase),
   ]);
 
+  // Page background style (outer background)
   const pageBgStyle: React.CSSProperties =
     settings.page_bg_type === "image" && settings.page_bg_value
       ? {
@@ -66,11 +67,22 @@ export default async function HomePage() {
         }
       : { backgroundColor: settings.page_bg_value || "#0D0D0D" };
 
+  // Main Card background style (inner profile container)
+  const cardBgStyle: React.CSSProperties =
+    settings.card_bg_type === "image" && settings.card_bg_value
+      ? {
+          backgroundImage: `url(${settings.card_bg_value})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }
+      : { backgroundColor: settings.card_bg_value || "#1E1E1E" };
+
   return (
     <>
-      {/* ── Page background ── */}
+      {/* ── Page background (Background Belakang) ── */}
       <div className="home-page" style={pageBgStyle}>
-        <main className="home-container">
+        {/* ── Main Card (Background Card Utama) ── */}
+        <main className="home-card" style={cardBgStyle}>
           {/* ── Profile Section ── */}
           <section className="profile-section">
             {/* Logo */}
@@ -103,44 +115,45 @@ export default async function HomePage() {
           {/* ── Link Buttons ── */}
           <section className="links-section">
             {links.map((link) => (
-              <LinkButton
-                key={link.id}
-                link={link}
-                cardBgType={settings.card_bg_type}
-                cardBgValue={settings.card_bg_value}
-              />
+              <LinkButton key={link.id} link={link} />
             ))}
           </section>
-        </main>
 
-        {/* ── Footer ── */}
-        {settings.footer_text && (
-          <footer className="home-footer">
-            <p>{settings.footer_text}</p>
-          </footer>
-        )}
+          {/* ── Footer ── */}
+          {settings.footer_text && (
+            <footer className="home-footer">
+              <p>{settings.footer_text}</p>
+            </footer>
+          )}
+        </main>
       </div>
 
       <style>{`
+        /* ── Outer Page Container (Background Halaman Belakang) ── */
         .home-page {
           min-height: 100dvh;
+          width: 100%;
           display: flex;
-          flex-direction: column;
           align-items: center;
-          justify-content: flex-start;
-          padding: 48px 16px 24px;
+          justify-content: center;
+          padding: 40px 16px;
         }
 
-        .home-container {
+        /* ── Inner Main Card (Background Card Utama) ── */
+        .home-card {
           width: 100%;
           max-width: 480px;
+          border-radius: 28px;
+          border: 1px solid #3A3A3A;
+          padding: 40px 24px 32px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 32px;
-          flex: 1;
+          gap: 28px;
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
         }
 
+        /* ── Profile section ── */
         .profile-section {
           display: flex;
           flex-direction: column;
@@ -149,6 +162,7 @@ export default async function HomePage() {
           text-align: center;
         }
 
+        /* ── Logo ── */
         .logo-wrapper {
           position: relative;
           width: 96px;
@@ -157,6 +171,7 @@ export default async function HomePage() {
           overflow: hidden;
           border: 2px solid #3A3A3A;
           flex-shrink: 0;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .logo-image {
@@ -166,7 +181,7 @@ export default async function HomePage() {
         .logo-placeholder {
           width: 100%;
           height: 100%;
-          background-color: #1E1E1E;
+          background-color: #2A2A2A;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -176,6 +191,7 @@ export default async function HomePage() {
           letter-spacing: -0.02em;
         }
 
+        /* ── Brand name ── */
         .brand-name {
           font-size: 22px;
           font-weight: 700;
@@ -184,13 +200,15 @@ export default async function HomePage() {
           line-height: 1.2;
         }
 
+        /* ── Tagline ── */
         .tagline {
           font-size: 14px;
-          color: rgba(255, 255, 255, 0.55);
+          color: rgba(255, 255, 255, 0.6);
           line-height: 1.5;
-          max-width: 320px;
+          max-width: 340px;
         }
 
+        /* ── Links section ── */
         .links-section {
           width: 100%;
           display: flex;
@@ -198,24 +216,28 @@ export default async function HomePage() {
           gap: 12px;
         }
 
+        /* ── Link button ── */
         .link-button {
           display: flex;
           align-items: center;
           gap: 14px;
           width: 100%;
           padding: 14px 18px;
-          border-radius: 12px;
-          border: 1px solid #3A3A3A;
+          border-radius: 14px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background-color: rgba(255, 255, 255, 0.07);
+          backdrop-filter: blur(8px);
           text-decoration: none;
           color: #ffffff;
           font-size: 15px;
           font-weight: 500;
-          transition: opacity 0.18s ease, transform 0.18s ease;
+          transition: background-color 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
           cursor: pointer;
         }
 
         .link-button:hover {
-          opacity: 0.82;
+          background-color: rgba(255, 255, 255, 0.14);
+          border-color: rgba(255, 255, 255, 0.25);
           transform: translateY(-1px);
         }
 
@@ -229,8 +251,8 @@ export default async function HomePage() {
           justify-content: center;
           width: 36px;
           height: 36px;
-          border-radius: 8px;
-          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+          background-color: rgba(255, 255, 255, 0.12);
           flex-shrink: 0;
         }
 
@@ -240,20 +262,27 @@ export default async function HomePage() {
           margin-right: 36px; /* offset for icon to visually center label */
         }
 
+        /* ── Footer ── */
         .home-footer {
-          margin-top: 40px;
-          padding-bottom: 24px;
+          margin-top: 8px;
           text-align: center;
         }
 
         .home-footer p {
           font-size: 12px;
-          color: rgba(255, 255, 255, 0.3);
+          color: rgba(255, 255, 255, 0.4);
         }
 
+        /* ── Responsive ── */
         @media (max-width: 480px) {
           .home-page {
-            padding: 36px 14px 20px;
+            padding: 16px 10px;
+          }
+
+          .home-card {
+            border-radius: 20px;
+            padding: 32px 18px 24px;
+            gap: 24px;
           }
 
           .brand-name {
