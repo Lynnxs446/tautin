@@ -16,6 +16,9 @@ async function fetchSettings(
     page_bg_value: "#0D0D0D",
     card_bg_type: "color",
     card_bg_value: "#1E1E1E",
+    btn_bg_type: "color",
+    btn_bg_value: "#2A2A2A",
+    btn_text_color: "#FFFFFF",
     logo_url: "",
   };
 
@@ -30,6 +33,9 @@ async function fetchSettings(
     page_bg_value: map.page_bg_value ?? defaults.page_bg_value,
     card_bg_type: (map.card_bg_type as SiteSettings["card_bg_type"]) ?? defaults.card_bg_type,
     card_bg_value: map.card_bg_value ?? defaults.card_bg_value,
+    btn_bg_type: (map.btn_bg_type as SiteSettings["btn_bg_type"]) ?? defaults.btn_bg_type,
+    btn_bg_value: map.btn_bg_value ?? defaults.btn_bg_value,
+    btn_text_color: map.btn_text_color ?? defaults.btn_text_color,
     logo_url: map.logo_url ?? defaults.logo_url,
   };
 }
@@ -56,7 +62,7 @@ export default async function HomePage() {
     fetchLinks(supabase),
   ]);
 
-  // Page background style (outer background)
+  // Page background (Background Belakang)
   const pageBgStyle: React.CSSProperties =
     settings.page_bg_type === "image" && settings.page_bg_value
       ? {
@@ -67,7 +73,7 @@ export default async function HomePage() {
         }
       : { backgroundColor: settings.page_bg_value || "#0D0D0D" };
 
-  // Main Card background style (inner profile container)
+  // Main Card background (Background Card Utama)
   const cardBgStyle: React.CSSProperties =
     settings.card_bg_type === "image" && settings.card_bg_value
       ? {
@@ -79,9 +85,9 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Page background (Background Belakang) ── */}
+      {/* ── Page background (1. Background Halaman Belakang) ── */}
       <div className="home-page" style={pageBgStyle}>
-        {/* ── Main Card (Background Card Utama) ── */}
+        {/* ── Main Card (2. Background Card Utama) ── */}
         <main className="home-card" style={cardBgStyle}>
           {/* ── Profile Section ── */}
           <section className="profile-section">
@@ -112,10 +118,16 @@ export default async function HomePage() {
             )}
           </section>
 
-          {/* ── Link Buttons ── */}
+          {/* ── Link Buttons (3. Background Tombol Tautan) ── */}
           <section className="links-section">
             {links.map((link) => (
-              <LinkButton key={link.id} link={link} />
+              <LinkButton
+                key={link.id}
+                link={link}
+                btnBgType={settings.btn_bg_type}
+                btnBgValue={settings.btn_bg_value}
+                btnTextColor={settings.btn_text_color}
+              />
             ))}
           </section>
 
@@ -129,7 +141,6 @@ export default async function HomePage() {
       </div>
 
       <style>{`
-        /* ── Outer Page Container (Background Halaman Belakang) ── */
         .home-page {
           min-height: 100dvh;
           width: 100%;
@@ -139,7 +150,6 @@ export default async function HomePage() {
           padding: 40px 16px;
         }
 
-        /* ── Inner Main Card (Background Card Utama) ── */
         .home-card {
           width: 100%;
           max-width: 480px;
@@ -153,7 +163,6 @@ export default async function HomePage() {
           box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
         }
 
-        /* ── Profile section ── */
         .profile-section {
           display: flex;
           flex-direction: column;
@@ -162,7 +171,6 @@ export default async function HomePage() {
           text-align: center;
         }
 
-        /* ── Logo ── */
         .logo-wrapper {
           position: relative;
           width: 96px;
@@ -191,7 +199,6 @@ export default async function HomePage() {
           letter-spacing: -0.02em;
         }
 
-        /* ── Brand name ── */
         .brand-name {
           font-size: 22px;
           font-weight: 700;
@@ -200,7 +207,6 @@ export default async function HomePage() {
           line-height: 1.2;
         }
 
-        /* ── Tagline ── */
         .tagline {
           font-size: 14px;
           color: rgba(255, 255, 255, 0.6);
@@ -208,7 +214,6 @@ export default async function HomePage() {
           max-width: 340px;
         }
 
-        /* ── Links section ── */
         .links-section {
           width: 100%;
           display: flex;
@@ -216,7 +221,6 @@ export default async function HomePage() {
           gap: 12px;
         }
 
-        /* ── Link button ── */
         .link-button {
           display: flex;
           align-items: center;
@@ -225,19 +229,15 @@ export default async function HomePage() {
           padding: 14px 18px;
           border-radius: 14px;
           border: 1px solid rgba(255, 255, 255, 0.12);
-          background-color: rgba(255, 255, 255, 0.07);
-          backdrop-filter: blur(8px);
           text-decoration: none;
-          color: #ffffff;
           font-size: 15px;
           font-weight: 500;
-          transition: background-color 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+          transition: opacity 0.18s ease, transform 0.18s ease;
           cursor: pointer;
         }
 
         .link-button:hover {
-          background-color: rgba(255, 255, 255, 0.14);
-          border-color: rgba(255, 255, 255, 0.25);
+          opacity: 0.88;
           transform: translateY(-1px);
         }
 
@@ -259,10 +259,9 @@ export default async function HomePage() {
         .link-button__label {
           flex: 1;
           text-align: center;
-          margin-right: 36px; /* offset for icon to visually center label */
+          margin-right: 36px;
         }
 
-        /* ── Footer ── */
         .home-footer {
           margin-top: 8px;
           text-align: center;
@@ -273,7 +272,6 @@ export default async function HomePage() {
           color: rgba(255, 255, 255, 0.4);
         }
 
-        /* ── Responsive ── */
         @media (max-width: 480px) {
           .home-page {
             padding: 16px 10px;

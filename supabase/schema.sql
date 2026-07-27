@@ -1,21 +1,38 @@
+-- =============================================
+-- TAUTIN — Link-in-Bio App
+-- Supabase Schema (paste ke SQL Editor)
+-- =============================================
+
 create extension if not exists "uuid-ossp";
 
+-- =============================================
+-- TABLE: settings
+-- Key-value store untuk semua konfigurasi site
+-- =============================================
 create table if not exists public.settings (
   key   text primary key,
   value text
 );
 
+-- Seed data default
 insert into public.settings (key, value) values
-  ('brand_name',    'Brand Name'),
-  ('tagline',       'Your tagline here'),
-  ('footer_text',   '© 2025 Brand Name. All rights reserved.'),
-  ('page_bg_type',  'color'),
-  ('page_bg_value', '#0D0D0D'),
-  ('card_bg_type',  'color'),
-  ('card_bg_value', '#1E1E1E'),
-  ('logo_url',      '')
+  ('brand_name',      'Brand Name'),
+  ('tagline',         'Your tagline here'),
+  ('footer_text',     '© 2025 Brand Name. All rights reserved.'),
+  ('page_bg_type',    'color'),
+  ('page_bg_value',   '#0D0D0D'),
+  ('card_bg_type',    'color'),
+  ('card_bg_value',   '#1E1E1E'),
+  ('btn_bg_type',     'color'),
+  ('btn_bg_value',    '#2A2A2A'),
+  ('btn_text_color',  '#FFFFFF'),
+  ('logo_url',        '')
 on conflict (key) do nothing;
 
+-- =============================================
+-- TABLE: links
+-- Tombol tautan yang tampil di halaman utama
+-- =============================================
 create table if not exists public.links (
   id          uuid primary key default uuid_generate_v4(),
   label       text not null,
@@ -26,12 +43,17 @@ create table if not exists public.links (
   created_at  timestamptz not null default now()
 );
 
+-- Seed data default
 insert into public.links (label, url, icon, order_index) values
   ('Instagram', 'https://instagram.com', 'Instagram',  0),
   ('TikTok',    'https://tiktok.com',    'TikTok',     1),
-  ('Shopee',    'https://shopee.co.id',  'ShoppingBag', 2)
+  ('Shopee',    'https://shopee.co.id',  'Shopee',     2),
+  ('WhatsApp',  'https://wa.me/628123456789', 'WhatsApp', 3)
 on conflict do nothing;
 
+-- =============================================
+-- RLS (Row Level Security)
+-- =============================================
 alter table public.settings enable row level security;
 alter table public.links    enable row level security;
 
@@ -53,6 +75,9 @@ create policy "Authenticated write links"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+-- =============================================
+-- STORAGE BUCKET: media
+-- =============================================
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)
 on conflict (id) do nothing;

@@ -55,6 +55,9 @@ export default function AdminDashboardPage() {
           page_bg_value: map.page_bg_value ?? "#0D0D0D",
           card_bg_type: (map.card_bg_type as SiteSettings["card_bg_type"]) ?? "color",
           card_bg_value: map.card_bg_value ?? "#1E1E1E",
+          btn_bg_type: (map.btn_bg_type as SiteSettings["btn_bg_type"]) ?? "color",
+          btn_bg_value: map.btn_bg_value ?? "#2A2A2A",
+          btn_text_color: map.btn_text_color ?? "#FFFFFF",
           logo_url: map.logo_url ?? "",
         });
       }
@@ -66,7 +69,6 @@ export default function AdminDashboardPage() {
     load();
   }, []);
 
-  // ── Logout ──
   async function handleLogout() {
     const supabase = createClient();
     await supabase.auth.signOut();
@@ -207,13 +209,14 @@ export default function AdminDashboardPage() {
                 <div className="section-header">
                   <h2 className="section-title">Background</h2>
                   <p className="section-desc">
-                    Atur warna atau gambar latar halaman dan card tombol
+                    Atur latar halaman, card utama, dan tombol tautan secara terpisah
                   </p>
                 </div>
 
                 <div className="section-body">
+                  {/* 1. Background Halaman Belakang */}
                   <BackgroundEditor
-                    title="Background Halaman"
+                    title="1. Background Halaman (Paling Belakang)"
                     bgType={settings.page_bg_type}
                     bgValue={settings.page_bg_value}
                     settingTypeKey="page_bg_type"
@@ -225,8 +228,9 @@ export default function AdminDashboardPage() {
                     }
                   />
 
+                  {/* 2. Background Card Utama */}
                   <BackgroundEditor
-                    title="Background Card Tombol"
+                    title="2. Background Card Utama (Profile Container)"
                     bgType={settings.card_bg_type}
                     bgValue={settings.card_bg_value}
                     settingTypeKey="card_bg_type"
@@ -234,6 +238,20 @@ export default function AdminDashboardPage() {
                     onSaved={(type, value) =>
                       setSettings((s) =>
                         s ? { ...s, card_bg_type: type, card_bg_value: value } : s
+                      )
+                    }
+                  />
+
+                  {/* 3. Background Tombol Tautan */}
+                  <BackgroundEditor
+                    title="3. Background Tombol Tautan"
+                    bgType={settings.btn_bg_type}
+                    bgValue={settings.btn_bg_value}
+                    settingTypeKey="btn_bg_type"
+                    settingValueKey="btn_bg_value"
+                    onSaved={(type, value) =>
+                      setSettings((s) =>
+                        s ? { ...s, btn_bg_type: type, btn_bg_value: value } : s
                       )
                     }
                   />

@@ -6,6 +6,9 @@ export interface SiteSettings {
   page_bg_value: string;
   card_bg_type: "color" | "image";
   card_bg_value: string;
+  btn_bg_type: "color" | "image";
+  btn_bg_value: string;
+  btn_text_color: string;
   logo_url: string;
 }
 

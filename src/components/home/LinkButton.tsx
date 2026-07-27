@@ -131,9 +131,17 @@ export function formatUrl(rawUrl: string = ""): string {
 
 interface LinkButtonProps {
   link: LinkItem;
+  btnBgType?: string;
+  btnBgValue?: string;
+  btnTextColor?: string;
 }
 
-export default function LinkButton({ link }: LinkButtonProps) {
+export default function LinkButton({
+  link,
+  btnBgType = "color",
+  btnBgValue = "#2A2A2A",
+  btnTextColor = "#FFFFFF",
+}: LinkButtonProps) {
   let iconKey = link.icon;
   if (!iconKey || iconKey === "Link" || !ICON_MAP[iconKey]) {
     iconKey = detectIconName(link.url, link.label);
@@ -142,12 +150,26 @@ export default function LinkButton({ link }: LinkButtonProps) {
   const IconComponent = ICON_MAP[iconKey] ?? LinkIcon;
   const finalHref = formatUrl(link.url);
 
+  const buttonStyle: React.CSSProperties =
+    btnBgType === "image" && btnBgValue
+      ? {
+          backgroundImage: `url(${btnBgValue})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: btnTextColor || "#FFFFFF",
+        }
+      : {
+          backgroundColor: btnBgValue || "#2A2A2A",
+          color: btnTextColor || "#FFFFFF",
+        };
+
   return (
     <a
       href={finalHref}
       target="_blank"
       rel="noopener noreferrer"
       className="link-button"
+      style={buttonStyle}
     >
       <span className="link-button__icon">
         <IconComponent className="w-5 h-5" />
