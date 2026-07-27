@@ -84,7 +84,16 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function detectIconName(url: string = "", label: string = ""): string {
   const combined = (url + " " + label).toLowerCase();
-  if (combined.includes("wa.me") || combined.includes("whatsapp") || combined.includes("wa.link") || combined.includes("wa")) {
+  if (
+    combined.includes("wa.me") ||
+    combined.includes("whatsapp") ||
+    combined.includes("wa.link") ||
+    combined.includes("wa") ||
+    combined.includes("client service") ||
+    combined.includes("customer service") ||
+    combined.includes("cs") ||
+    combined.includes("service")
+  ) {
     return "WhatsApp";
   }
   if (combined.includes("instagram") || combined.includes("instagr.am") || combined.includes("ig")) {

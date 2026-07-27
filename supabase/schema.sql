@@ -33,10 +33,10 @@ create table if not exists public.links (
 );
 
 insert into public.links (label, url, icon, order_index) values
-  ('Instagram', 'https://instagram.com', 'Instagram',  0),
-  ('TikTok',    'https://tiktok.com',    'TikTok',     1),
-  ('Shopee',    'https://shopee.co.id',  'Shopee',     2),
-  ('WhatsApp',  'https://wa.me/628123456789', 'WhatsApp', 3)
+  ('Instagram',      'https://instagram.com',       'Instagram',  0),
+  ('TikTok',         'https://tiktok.com',          'TikTok',     1),
+  ('Shopee',         'https://shopee.co.id',        'Shopee',     2),
+  ('Client Service', 'https://wa.me/628123456789',   'WhatsApp',   3)
 on conflict do nothing;
 
 alter table public.settings enable row level security;
