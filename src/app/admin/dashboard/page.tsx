@@ -8,6 +8,7 @@ import BackgroundEditor from "@/components/admin/BackgroundEditor";
 import LogoEditor from "@/components/admin/LogoEditor";
 import TextEditor from "@/components/admin/TextEditor";
 import LinkButtonEditor from "@/components/admin/LinkButtonEditor";
+import PasswordEditor from "@/components/admin/PasswordEditor";
 import {
   ArrowRightOnRectangleIcon,
   Squares2X2Icon,
@@ -16,15 +17,17 @@ import {
   LinkIcon,
   DocumentTextIcon,
   ArrowTopRightOnSquareIcon,
+  KeyIcon,
 } from "@heroicons/react/24/outline";
 
-type TabKey = "profile" | "background" | "links" | "footer";
+type TabKey = "profile" | "background" | "links" | "footer" | "security";
 
 const TABS: { key: TabKey; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { key: "profile", label: "Profil", icon: UserCircleIcon },
   { key: "background", label: "Background", icon: PaintBrushIcon },
   { key: "links", label: "Tombol", icon: LinkIcon },
   { key: "footer", label: "Footer", icon: DocumentTextIcon },
+  { key: "security", label: "Keamanan", icon: KeyIcon },
 ];
 
 export default function AdminDashboardPage() {
@@ -312,6 +315,22 @@ export default function AdminDashboardPage() {
                       }
                     />
                   </div>
+                </div>
+              </section>
+            )}
+
+            {/* ── Keamanan Tab ── */}
+            {activeTab === "security" && (
+              <section className="content-section">
+                <div className="section-header">
+                  <h2 className="section-title">Keamanan</h2>
+                  <p className="section-desc">
+                    Ubah password akun admin
+                  </p>
+                </div>
+
+                <div className="section-body">
+                  <PasswordEditor />
                 </div>
               </section>
             )}
