@@ -181,7 +181,6 @@ export default async function HomePage() {
           text-align: center;
         }
 
-        /* ── Logo without circle border ring ── */
         .logo-wrapper {
           position: relative;
           width: 96px;
@@ -204,15 +203,17 @@ export default async function HomePage() {
           align-items: center;
           justify-content: center;
           font-size: 36px;
-          font-weight: 700;
-          letter-spacing: -0.02em;
+          font-weight: 600;
+          letter-spacing: 0.1em;
         }
 
+        /* ── Sharp geometric brand typography matching Futura Referensi 1 ── */
         .brand-name {
           font-size: 22px;
-          font-weight: 700;
-          letter-spacing: -0.03em;
+          font-weight: 600;
+          letter-spacing: 0.14em;
           line-height: 1.2;
+          text-transform: uppercase;
         }
 
         .tagline {
@@ -291,6 +292,7 @@ export default async function HomePage() {
 
           .brand-name {
             font-size: 20px;
+            letter-spacing: 0.12em;
           }
         }
       `}</style>
