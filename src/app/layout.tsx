@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Jost } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const futura = Jost({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-futura",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={inter.variable}>
+    <html lang="id" className={futura.variable}>
       <body>{children}</body>
     </html>
   );
