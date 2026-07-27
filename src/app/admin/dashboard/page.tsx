@@ -49,8 +49,11 @@ export default function AdminDashboardPage() {
         );
         setSettings({
           brand_name: map.brand_name ?? "Brand Name",
+          brand_name_color: map.brand_name_color ?? "#FFFFFF",
           tagline: map.tagline ?? "Your tagline here",
+          tagline_color: map.tagline_color ?? "#A3A3A3",
           footer_text: map.footer_text ?? "© 2025 Brand Name",
+          footer_color: map.footer_color ?? "#737373",
           page_bg_type: (map.page_bg_type as SiteSettings["page_bg_type"]) ?? "color",
           page_bg_value: map.page_bg_value ?? "#0D0D0D",
           card_bg_type: (map.card_bg_type as SiteSettings["card_bg_type"]) ?? "color",
@@ -157,12 +160,13 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="dashboard-content">
+            {/* ── Profil Tab ── */}
             {activeTab === "profile" && (
               <section className="content-section">
                 <div className="section-header">
                   <h2 className="section-title">Profil</h2>
                   <p className="section-desc">
-                    Atur logo, nama brand, dan tagline
+                    Atur logo, nama brand, dan tagline serta warna font masing-masing
                   </p>
                 </div>
 
@@ -176,15 +180,19 @@ export default function AdminDashboardPage() {
                   />
 
                   <div className="admin-card">
-                    <p className="section-label">Teks Profil</p>
+                    <p className="section-label">Teks & Warna Profil</p>
                     <div className="text-fields">
                       <TextEditor
                         label="Nama Brand"
                         settingKey="brand_name"
                         initialValue={settings.brand_name}
                         placeholder="Nama brand Anda"
-                        onSaved={(v) =>
-                          setSettings((s) => s ? { ...s, brand_name: v } : s)
+                        colorSettingKey="brand_name_color"
+                        initialColor={settings.brand_name_color}
+                        onSaved={(v, c) =>
+                          setSettings((s) =>
+                            s ? { ...s, brand_name: v, brand_name_color: c ?? s.brand_name_color } : s
+                          )
                         }
                       />
                       <div className="divider" />
@@ -194,8 +202,12 @@ export default function AdminDashboardPage() {
                         initialValue={settings.tagline}
                         placeholder="Tagline singkat Anda"
                         multiline
-                        onSaved={(v) =>
-                          setSettings((s) => s ? { ...s, tagline: v } : s)
+                        colorSettingKey="tagline_color"
+                        initialColor={settings.tagline_color}
+                        onSaved={(v, c) =>
+                          setSettings((s) =>
+                            s ? { ...s, tagline: v, tagline_color: c ?? s.tagline_color } : s
+                          )
                         }
                       />
                     </div>
@@ -204,6 +216,7 @@ export default function AdminDashboardPage() {
               </section>
             )}
 
+            {/* ── Background Tab ── */}
             {activeTab === "background" && (
               <section className="content-section">
                 <div className="section-header">
@@ -214,7 +227,6 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div className="section-body">
-                  {/* 1. Background Halaman Belakang */}
                   <BackgroundEditor
                     title="1. Background Halaman (Paling Belakang)"
                     bgType={settings.page_bg_type}
@@ -228,7 +240,6 @@ export default function AdminDashboardPage() {
                     }
                   />
 
-                  {/* 2. Background Card Utama */}
                   <BackgroundEditor
                     title="2. Background Card Utama (Profile Container)"
                     bgType={settings.card_bg_type}
@@ -242,7 +253,6 @@ export default function AdminDashboardPage() {
                     }
                   />
 
-                  {/* 3. Background Tombol Tautan */}
                   <BackgroundEditor
                     title="3. Background Tombol Tautan"
                     bgType={settings.btn_bg_type}
@@ -259,6 +269,7 @@ export default function AdminDashboardPage() {
               </section>
             )}
 
+            {/* ── Tombol Tab ── */}
             {activeTab === "links" && (
               <section className="content-section">
                 <div className="section-header">
@@ -274,12 +285,13 @@ export default function AdminDashboardPage() {
               </section>
             )}
 
+            {/* ── Footer Tab ── */}
             {activeTab === "footer" && (
               <section className="content-section">
                 <div className="section-header">
                   <h2 className="section-title">Footer</h2>
                   <p className="section-desc">
-                    Atur teks footer / copyright
+                    Atur teks footer dan warna font footer
                   </p>
                 </div>
 
@@ -291,8 +303,12 @@ export default function AdminDashboardPage() {
                       initialValue={settings.footer_text}
                       placeholder="© 2025 Brand Name. All rights reserved."
                       multiline
-                      onSaved={(v) =>
-                        setSettings((s) => s ? { ...s, footer_text: v } : s)
+                      colorSettingKey="footer_color"
+                      initialColor={settings.footer_color}
+                      onSaved={(v, c) =>
+                        setSettings((s) =>
+                          s ? { ...s, footer_text: v, footer_color: c ?? s.footer_color } : s
+                        )
                       }
                     />
                   </div>

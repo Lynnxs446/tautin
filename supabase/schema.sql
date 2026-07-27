@@ -16,17 +16,20 @@ create table if not exists public.settings (
 
 -- Seed data default
 insert into public.settings (key, value) values
-  ('brand_name',      'Brand Name'),
-  ('tagline',         'Your tagline here'),
-  ('footer_text',     '© 2025 Brand Name. All rights reserved.'),
-  ('page_bg_type',    'color'),
-  ('page_bg_value',   '#0D0D0D'),
-  ('card_bg_type',    'color'),
-  ('card_bg_value',   '#1E1E1E'),
-  ('btn_bg_type',     'color'),
-  ('btn_bg_value',    '#2A2A2A'),
-  ('btn_text_color',  '#FFFFFF'),
-  ('logo_url',        '')
+  ('brand_name',        'Brand Name'),
+  ('brand_name_color',  '#FFFFFF'),
+  ('tagline',           'Your tagline here'),
+  ('tagline_color',     '#A3A3A3'),
+  ('footer_text',       '© 2025 Brand Name. All rights reserved.'),
+  ('footer_color',      '#737373'),
+  ('page_bg_type',      'color'),
+  ('page_bg_value',     '#0D0D0D'),
+  ('card_bg_type',      'color'),
+  ('card_bg_value',     '#1E1E1E'),
+  ('btn_bg_type',       'color'),
+  ('btn_bg_value',      '#2A2A2A'),
+  ('btn_text_color',    '#FFFFFF'),
+  ('logo_url',          '')
 on conflict (key) do nothing;
 
 -- =============================================

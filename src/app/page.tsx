@@ -10,8 +10,11 @@ async function fetchSettings(
 
   const defaults: SiteSettings = {
     brand_name: "Brand Name",
+    brand_name_color: "#FFFFFF",
     tagline: "Your tagline here",
+    tagline_color: "#A3A3A3",
     footer_text: "© 2025 Brand Name. All rights reserved.",
+    footer_color: "#737373",
     page_bg_type: "color",
     page_bg_value: "#0D0D0D",
     card_bg_type: "color",
@@ -27,8 +30,11 @@ async function fetchSettings(
   const map = Object.fromEntries(data.map((row) => [row.key, row.value]));
   return {
     brand_name: map.brand_name ?? defaults.brand_name,
+    brand_name_color: map.brand_name_color ?? defaults.brand_name_color,
     tagline: map.tagline ?? defaults.tagline,
+    tagline_color: map.tagline_color ?? defaults.tagline_color,
     footer_text: map.footer_text ?? defaults.footer_text,
+    footer_color: map.footer_color ?? defaults.footer_color,
     page_bg_type: (map.page_bg_type as SiteSettings["page_bg_type"]) ?? defaults.page_bg_type,
     page_bg_value: map.page_bg_value ?? defaults.page_bg_value,
     card_bg_type: (map.card_bg_type as SiteSettings["card_bg_type"]) ?? defaults.card_bg_type,
@@ -85,9 +91,9 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Page background (1. Background Halaman Belakang) ── */}
+      {/* ── Page background ── */}
       <div className="home-page" style={pageBgStyle}>
-        {/* ── Main Card (2. Background Card Utama) ── */}
+        {/* ── Main Card Container ── */}
         <main className="home-card" style={cardBgStyle}>
           {/* ── Profile Section ── */}
           <section className="profile-section">
@@ -103,22 +109,26 @@ export default async function HomePage() {
                   priority
                 />
               ) : (
-                <div className="logo-placeholder">
+                <div className="logo-placeholder" style={{ color: settings.brand_name_color }}>
                   <span>{settings.brand_name.charAt(0).toUpperCase()}</span>
                 </div>
               )}
             </div>
 
             {/* Brand name */}
-            <h1 className="brand-name">{settings.brand_name}</h1>
+            <h1 className="brand-name" style={{ color: settings.brand_name_color }}>
+              {settings.brand_name}
+            </h1>
 
             {/* Tagline */}
             {settings.tagline && (
-              <p className="tagline">{settings.tagline}</p>
+              <p className="tagline" style={{ color: settings.tagline_color }}>
+                {settings.tagline}
+              </p>
             )}
           </section>
 
-          {/* ── Link Buttons (3. Background Tombol Tautan) ── */}
+          {/* ── Link Buttons ── */}
           <section className="links-section">
             {links.map((link) => (
               <LinkButton
@@ -134,7 +144,7 @@ export default async function HomePage() {
           {/* ── Footer ── */}
           {settings.footer_text && (
             <footer className="home-footer">
-              <p>{settings.footer_text}</p>
+              <p style={{ color: settings.footer_color }}>{settings.footer_text}</p>
             </footer>
           )}
         </main>
@@ -195,21 +205,18 @@ export default async function HomePage() {
           justify-content: center;
           font-size: 36px;
           font-weight: 700;
-          color: #ffffff;
           letter-spacing: -0.02em;
         }
 
         .brand-name {
           font-size: 22px;
           font-weight: 700;
-          color: #ffffff;
           letter-spacing: -0.03em;
           line-height: 1.2;
         }
 
         .tagline {
           font-size: 14px;
-          color: rgba(255, 255, 255, 0.6);
           line-height: 1.5;
           max-width: 340px;
         }
@@ -269,7 +276,6 @@ export default async function HomePage() {
 
         .home-footer p {
           font-size: 12px;
-          color: rgba(255, 255, 255, 0.4);
         }
 
         @media (max-width: 480px) {

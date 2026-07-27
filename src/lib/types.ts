@@ -1,7 +1,10 @@
 export interface SiteSettings {
   brand_name: string;
+  brand_name_color: string;
   tagline: string;
+  tagline_color: string;
   footer_text: string;
+  footer_color: string;
   page_bg_type: "color" | "image";
   page_bg_value: string;
   card_bg_type: "color" | "image";

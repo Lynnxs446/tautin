@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, SwatchIcon } from "@heroicons/react/24/outline";
 
 interface TextEditorProps {
   label: string;
@@ -10,7 +10,9 @@ interface TextEditorProps {
   initialValue: string;
   placeholder?: string;
   multiline?: boolean;
-  onSaved?: (value: string) => void;
+  colorSettingKey?: string;
+  initialColor?: string;
+  onSaved?: (value: string, color?: string) => void;
 }
 
 export default function TextEditor({
@@ -19,9 +21,12 @@ export default function TextEditor({
   initialValue,
   placeholder,
   multiline = false,
+  colorSettingKey,
+  initialColor = "#FFFFFF",
   onSaved,
 }: TextEditorProps) {
   const [value, setValue] = useState(initialValue);
+  const [color, setColor] = useState(initialColor);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
@@ -29,15 +34,25 @@ export default function TextEditor({
     setSaving(true);
     setMsg(null);
     const supabase = createClient();
-    const { error } = await supabase
-      .from("settings")
-      .upsert({ key: settingKey, value });
 
-    if (error) {
+    const updates = [
+      supabase.from("settings").upsert({ key: settingKey, value }),
+    ];
+
+    if (colorSettingKey) {
+      updates.push(
+        supabase.from("settings").upsert({ key: colorSettingKey, value: color })
+      );
+    }
+
+    const results = await Promise.all(updates);
+    const hasError = results.some((r) => r.error);
+
+    if (hasError) {
       setMsg({ type: "err", text: "Gagal menyimpan." });
     } else {
       setMsg({ type: "ok", text: "Tersimpan!" });
-      onSaved?.(value);
+      onSaved?.(value, colorSettingKey ? color : undefined);
       setTimeout(() => setMsg(null), 2500);
     }
     setSaving(false);
@@ -45,9 +60,24 @@ export default function TextEditor({
 
   return (
     <div className="text-editor-field">
-      <label className="section-label" htmlFor={settingKey}>
-        {label}
-      </label>
+      <div className="text-editor-label-row">
+        <label className="section-label" htmlFor={settingKey} style={{ marginBottom: 0 }}>
+          {label}
+        </label>
+
+        {colorSettingKey && (
+          <div className="font-color-picker" title="Warna Font">
+            <SwatchIcon className="w-3.5 h-3.5" style={{ color: "rgba(255,255,255,0.5)" }} />
+            <input
+              type="color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              className="color-swatch-mini"
+            />
+            <span className="color-hex-text">{color.toUpperCase()}</span>
+          </div>
+        )}
+      </div>
 
       {multiline ? (
         <textarea
@@ -89,6 +119,36 @@ export default function TextEditor({
           display: flex;
           flex-direction: column;
           gap: 8px;
+        }
+        .text-editor-label-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 2px;
+        }
+        .font-color-picker {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background-color: #2A2A2A;
+          border: 1px solid #3A3A3A;
+          border-radius: 6px;
+          padding: 3px 8px;
+        }
+        .color-swatch-mini {
+          width: 20px;
+          height: 20px;
+          padding: 0;
+          border: 1px solid #3A3A3A;
+          border-radius: 4px;
+          background: transparent;
+          cursor: pointer;
+        }
+        .color-hex-text {
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255,255,255,0.7);
+          font-family: monospace;
         }
         .textarea-input {
           resize: vertical;
