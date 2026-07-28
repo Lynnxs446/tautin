@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Jost } from "next/font/google";
+import { Jost, Montserrat } from "next/font/google";
 import "./globals.css";
 
-const futura = Jost({
+const jost = Jost({
   subsets: ["latin"],
-  variable: "--font-futura",
+  variable: "--font-jost",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
@@ -20,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={futura.variable}>
+    <html lang="id" className={`${jost.variable} ${montserrat.variable}`}>
       <body>{children}</body>
     </html>
   );

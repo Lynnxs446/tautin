@@ -27,7 +27,7 @@ html {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: "Futura", "Futura PT", "Futura Medium", var(--font-futura), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-jost), var(--font-montserrat), "Futura", "Futura PT", "Century Gothic", system-ui, -apple-system, sans-serif;
   min-height: 100dvh;
 }
 
@@ -40,7 +40,7 @@ h6,
 button,
 input,
 textarea {
-  font-family: "Futura", "Futura PT", "Futura Medium", var(--font-futura), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-jost), var(--font-montserrat), "Futura", "Futura PT", "Century Gothic", system-ui, -apple-system, sans-serif;
 }
 
 h1,
@@ -49,7 +49,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--color-text);
 }

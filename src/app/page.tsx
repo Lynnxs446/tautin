@@ -203,15 +203,16 @@ export default async function HomePage() {
           align-items: center;
           justify-content: center;
           font-size: 36px;
-          font-weight: 600;
+          font-weight: 500;
           letter-spacing: 0.1em;
         }
 
-        /* ── Sharp geometric brand typography matching Futura Referensi 1 ── */
+        /* ── Exact geometric brand typography matching reference image ── */
         .brand-name {
-          font-size: 22px;
-          font-weight: 600;
-          letter-spacing: 0.14em;
+          font-family: var(--font-jost), var(--font-montserrat), "Futura", "Futura PT", "Century Gothic", sans-serif;
+          font-size: 24px;
+          font-weight: 500;
+          letter-spacing: 0.22em;
           line-height: 1.2;
           text-transform: uppercase;
         }
@@ -291,8 +292,8 @@ export default async function HomePage() {
           }
 
           .brand-name {
-            font-size: 20px;
-            letter-spacing: 0.12em;
+            font-size: 21px;
+            letter-spacing: 0.18em;
           }
         }
       `}</style>

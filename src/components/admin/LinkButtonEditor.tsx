@@ -22,9 +22,6 @@ import {
 import { LinkItem } from "@/lib/types";
 import { ICON_MAP, detectIconName } from "@/components/home/LinkButton";
 
-// =============================================
-// Available icons in the admin icon picker
-// =============================================
 const ICON_OPTIONS = [
   { name: "WhatsApp", label: "WhatsApp" },
   { name: "Instagram", label: "Instagram" },
@@ -64,7 +61,6 @@ function EditForm({ link, onSave, onCancel, saving }: EditFormProps) {
   const [icon, setIcon] = useState(link.icon ?? "Link");
   const [userSelectedIcon, setUserSelectedIcon] = useState(Boolean(link.icon && link.icon !== "Link"));
 
-  // Handle URL or Label change with auto-icon suggestion if user hasn't manually picked an icon
   function handleUrlChange(val: string) {
     setUrl(val);
     if (!userSelectedIcon) {
@@ -489,7 +485,6 @@ export default function LinkButtonEditor({ initialLinks }: LinkButtonEditorProps
           border-color: rgba(239,68,68,0.3);
         }
 
-        /* Edit form */
         .edit-form { display: flex; flex-direction: column; gap: 12px; }
         .edit-form-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .edit-form-field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 150px; }
@@ -497,7 +492,6 @@ export default function LinkButtonEditor({ initialLinks }: LinkButtonEditorProps
         .edit-input { font-size: 13px; padding: 8px 10px; }
         .edit-form-actions { display: flex; gap: 8px; }
 
-        /* Icon grid */
         .icon-grid {
           display: flex;
           flex-wrap: wrap;
