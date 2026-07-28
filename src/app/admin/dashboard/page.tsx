@@ -96,6 +96,7 @@ export default function AdminDashboardPage() {
   return (
     <>
       <div className="dashboard-layout">
+        {/* ── Desktop Sidebar ── */}
         <aside className="sidebar">
           <div className="sidebar-header">
             <div className="sidebar-brand">
@@ -142,8 +143,37 @@ export default function AdminDashboardPage() {
           </div>
         </aside>
 
+        {/* ── Main Content Area ── */}
         <main className="dashboard-main">
+          {/* ── Mobile Top Header (with Brand, View Site, Logout, and Tabs) ── */}
           <div className="mobile-header">
+            <div className="mobile-top-bar">
+              <div className="sidebar-brand">
+                <Squares2X2Icon className="w-5 h-5" />
+                <span>Admin Panel</span>
+              </div>
+              <div className="mobile-actions">
+                <a
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mobile-action-btn"
+                  title="Lihat Halaman"
+                >
+                  <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                </a>
+                <button
+                  type="button"
+                  className="mobile-action-btn danger"
+                  onClick={handleLogout}
+                  title="Logout"
+                >
+                  <ArrowRightOnRectangleIcon className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            </div>
+
             <div className="mobile-tabs">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
@@ -516,6 +546,41 @@ export default function AdminDashboardPage() {
             z-index: 10;
             background-color: #1E1E1E;
             border-bottom: 1px solid #3A3A3A;
+          }
+
+          .mobile-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px 8px;
+            border-bottom: 1px solid #2A2A2A;
+          }
+
+          .mobile-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .mobile-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            background-color: #2A2A2A;
+            border: 1px solid #3A3A3A;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+          }
+
+          .mobile-action-btn.danger {
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+            background-color: rgba(239, 68, 68, 0.1);
           }
 
           .mobile-tabs {
